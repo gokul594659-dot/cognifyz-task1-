@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cognifyz Task 1</title>
+</head>
+<body>
+  <h1>Simple Form</h1>
+  <form action="/submit" method="POST">
+    <label>Enter your name:</label>
+    <input type="text" name="name" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <% if (name) { %>
+    <h2>Hello, <%= name %>! Form submitted successfully.</h2>
+  <% } %>
+</body>
+</html>
