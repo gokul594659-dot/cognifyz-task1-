@@ -1,18 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cognifyz Task 1</title>
+  <title>Cognifyz Task 2</title>
 </head>
 <body>
-  <h1>Simple Form</h1>
-  <form action="/submit" method="POST">
-    <label>Enter your name:</label>
-    <input type="text" name="name" required>
+  <h1>Registration Form</h1>
+  <form id="regForm" action="/submit" method="POST" onsubmit="return validateForm()">
+    <label>Name:</label>
+    <input type="text" name="name" id="name" required><br><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" id="email" required><br><br>
+
+    <label>Password:</label>
+    <input type="password" name="password" id="password" required><br><br>
+
     <button type="submit">Submit</button>
   </form>
 
-  <% if (name) { %>
-    <h2>Hello, <%= name %>! Form submitted successfully.</h2>
+  <p id="errorMsg" style="color:red;"></p>
+
+  <% if (errors && errors.length > 0) { %>
+    <ul style="color:red;">
+      <% errors.forEach(function(err) { %>
+        <li><%= err %></li>
+      <% }); %>
+    </ul>
   <% } %>
+
+  <% if (name) { %>
+    <h2>Hello, <%= name %>! Registration successful.</h2>
+  <% } %>
+
+  <script>
+    function validateForm() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('errorMsg');
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailPattern.test(email)) {
+        errorMsg.innerText = 'Please enter a valid email address.';
+        return false;
+      }
+
+      if (password.length < 6) {
+        errorMsg.innerText = 'Password must be at least 6 characters long.';
+        return false;
+      }
+
+      errorMsg.innerText = '';
+      return true;
+    }
+  </script>
 </body>
 </html>

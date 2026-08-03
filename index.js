@@ -6,12 +6,31 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.render('index', { name: null });
+  res.render('index', { name: null, errors: [] });
 });
 
 app.post('/submit', (req, res) => {
-  const userName = req.body.name;
-  res.render('index', { name: userName });
+  const { name, email, password } = req.body;
+  const errors = [];
+
+  if (!name || name.trim() === '') {
+    errors.push('Name is required.');
+  }
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    errors.push('A valid email is required.');
+  }
+
+  if (!password || password.length < 6) {
+    errors.push('Password must be at least 6 characters.');
+  }
+
+  if (errors.length > 0) {
+    return res.render('index', { name: null, errors: errors });
+  }
+
+  res.render('index', { name: name, errors: [] });
 });
 
 app.listen(PORT, () => {
