@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
@@ -27,10 +28,10 @@ app.post('/submit', (req, res) => {
   }
 
   if (errors.length > 0) {
-    return res.render('index', { name: null, errors: errors });
+    return res.json({ errors: errors });
   }
 
-  res.render('index', { name: name, errors: [] });
+  res.json({ name: name, errors: [] });
 });
 
 app.listen(PORT, () => {
